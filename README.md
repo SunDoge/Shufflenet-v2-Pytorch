@@ -36,3 +36,9 @@ python eval.py -a shufflenetv2 --width_mult=1.0 --evaluate=./shufflenetv2_x1_69.
 
 Dataset prepare Refer to https://github.com/facebook/fb.resnet.torch/blob/master/INSTALL.md#download-the-imagenet-dataset
 
+
+## Roadmap
+
+- [x] Change python version to 3.x
+- [x] Change pytorch version to 0.4.x and 1.0
+- [ ] Retrain and release new pretrain model
