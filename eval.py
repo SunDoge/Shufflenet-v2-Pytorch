@@ -62,7 +62,6 @@ def main():
             model = ShuffleNetV2.__dict__[args.arch]()
 
     print(model)
-    exit(0)
 
     if args.evaluate:
         if os.path.isfile(args.evaluate):
