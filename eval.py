@@ -40,7 +40,6 @@ parser.add_argument('-b', '--batch-size', default=256, type=int,
 # parser.add_argument('--width_mult',default=1.0, type=float)
 parser.add_argument('--evaluate', default='', type=str, metavar='PATH',
                     help='path to evaluate model (default: none)')
-parser.add_argument('--pretrained', action='store_true')
 
 
 def main():
@@ -50,16 +49,10 @@ def main():
     # create model
     print("=> creating model '{}'".format(args.arch))
 
-    if args.pretrained:
-        try:
-            model = models.__dict__[args.arch](pretrained=True)
-        except KeyError:
-            model = ShuffleNetV2.__dict__[args.arch](pretrained=True)
-    else:
-        try:
-            model = models.__dict__[args.arch]()
-        except KeyError:
-            model = ShuffleNetV2.__dict__[args.arch]()
+    try:
+        model = models.__dict__[args.arch](pretrained=True)
+    except KeyError:
+        model = ShuffleNetV2.__dict__[args.arch](pretrained=True)
 
     print(model)
 

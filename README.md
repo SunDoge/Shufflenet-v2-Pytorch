@@ -21,18 +21,25 @@ The top-1/5 accuracy rates by using single center crop (crop size: 224x224, imag
 ## Evaluate Models 
 
 ```
-python eval.py -a shufflenetv2 --width_mult=0.5 --evaluate=./shufflenetv2_x0.5_60.646_81.696.pth.tar ./ILSVRC2012/
+python eval.py -a shufflenetv2_x0_5 ./ILSVRC2012/
 ```
 
 ```
-python eval.py -a shufflenetv2 --width_mult=1.0 --evaluate=./shufflenetv2_x1_69.390_88.412.pth.tar ./ILSVRC2012/
+python eval.py -a shufflenetv2_x1_0  ./ILSVRC2012/
 ```
 
 ## Version:
 
+### Old
+
 - Python2.7
 - torch0.3.1
 - torchvision0.2.1
+
+### New
+
+- Python3.x
+- torch0.4.x or torch1.0.0
 
 Dataset prepare Refer to https://github.com/facebook/fb.resnet.torch/blob/master/INSTALL.md#download-the-imagenet-dataset
 
@@ -41,4 +48,5 @@ Dataset prepare Refer to https://github.com/facebook/fb.resnet.torch/blob/master
 
 - [x] Change python version to 3.x
 - [x] Change pytorch version to 0.4.x and 1.0
-- [ ] Retrain and release new pretrain model
+- [x] Release pretrained model
+- [ ] Retrain and release new pretrained model
