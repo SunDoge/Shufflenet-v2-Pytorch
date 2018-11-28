@@ -5,6 +5,16 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.autograd import Variable
 from torch.nn import init
+from torch.utils import model_zoo
+
+__all__ = ['ShuffleNetV2',
+           'shufflenetv2_x0_5', 'shufflenetv2_x1_0',
+           'shufflenetv2_x1_5', 'shufflenetv2_x2_0']
+
+model_urls = {
+    'shufflenetv2_x0.5': 'https://github.com/SunDoge/Shufflenet-v2-Pytorch/releases/download/v0.1.0/shufflenetv2_x0.5_60.646_81.696-6692fb04.pth',
+    'shufflenetv2_x1.0': 'https://github.com/SunDoge/Shufflenet-v2-Pytorch/releases/download/v0.1.0/shufflenetv2_x1_69.402_88.374-0de6f9e8.pth',
+}
 
 
 def conv_bn(inp, oup, stride):
@@ -156,13 +166,13 @@ class ShuffleNetV2(nn.Module):
         # building last several layers
         self.conv_last = conv_1x1_bn(
             input_channel, self.stage_out_channels[-1])
-        # self.globalpool = nn.Sequential(nn.AvgPool2d(int(input_size/32))) # Why Sequential?
-        self.globalpool = nn.AvgPool2d(int(input_size/32))
+        self.globalpool = nn.Sequential(nn.AvgPool2d(int(input_size/32))) # Why Sequential?
+        # self.globalpool = nn.AvgPool2d(int(input_size/32))
 
         # building classifier
-        # self.classifier = nn.Sequential(
-        #     nn.Linear(self.stage_out_channels[-1], n_class))
-        self.classifier = nn.Linear(self.stage_out_channels[-1], n_class)
+        self.classifier = nn.Sequential(
+            nn.Linear(self.stage_out_channels[-1], n_class))
+        # self.classifier = nn.Linear(self.stage_out_channels[-1], n_class)
 
     def forward(self, x):
         x = self.conv1(x)
@@ -175,9 +185,45 @@ class ShuffleNetV2(nn.Module):
         return x
 
 
-def shufflenetv2(n_class=1000, input_size=224, width_mult=1.):
+def shufflenetv2(width_mult, n_class=1000, input_size=224, ):
     model = ShuffleNetV2(
         n_class=n_class, input_size=input_size, width_mult=width_mult)
+    return model
+
+
+def shufflenetv2_x0_5(pretrained=False, n_class=1000, input_size=224):
+    model = ShuffleNetV2(
+        n_class=n_class, input_size=input_size, width_mult=0.5)
+    if pretrained:
+        model.load_state_dict(model_zoo.load_url(
+            model_urls['shufflenetv2_x0.5']))
+    return model
+
+
+def shufflenetv2_x1_0(pretrained=False, n_class=1000, input_size=224):
+    model = ShuffleNetV2(
+        n_class=n_class, input_size=input_size, width_mult=1.0)
+    if pretrained:
+        model.load_state_dict(model_zoo.load_url(
+            model_urls['shufflenetv2_x1.0']))
+    return model
+
+
+def shufflenetv2_x1_5(pretrained=False, n_class=1000, input_size=224):
+    model = ShuffleNetV2(
+        n_class=n_class, input_size=input_size, width_mult=1.5)
+    # if pretrained:
+    #     model.load_state_dict(model_zoo.load_url(
+    #         model_urls['shufflenetv2_x1.5']))
+    return model
+
+
+def shufflenetv2_x2_0(pretrained=False, n_class=1000, input_size=224):
+    model = ShuffleNetV2(
+        n_class=n_class, input_size=input_size, width_mult=2.0)
+    # if pretrained:
+    #     model.load_state_dict(model_zoo.load_url(
+    #         model_urls['shufflenetv2_x2.0']))
     return model
 
 
